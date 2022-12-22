@@ -1,5 +1,6 @@
 '''
 PROGRAM UNTUK BARCODE SCANNER DIRECT TO RASPI
+**ORIGINAL PROGRAM**
 
 Source:
 https://circuitdigest.com/microcontroller-projects/interfacing-usb-barcode-scanner-with-raspberry-pi-4
