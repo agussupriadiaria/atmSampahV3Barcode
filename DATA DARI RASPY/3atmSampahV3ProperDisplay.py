@@ -1,5 +1,5 @@
 '''
-SERIAL KOMUNIKASI UART 3
+SERIAL KOMUNIKASI UART 3a
 Detail: 1 channel
 ** Tools: Raspy, RTC, arduino uno, barcode scanner, thermal printer
 ** Notes:
@@ -14,7 +14,7 @@ sudo chmod a+w /dev/serial0
 /////////////////////////////////////
 WIRING:
 *Raspi
-gpio 6 = [output] untuk output ke barcode scanner dan conyeyor
+gpio 6 = [output] untuk output ke barcode scanner dan conyeyor | buat rescand pin ini diaktifkan lagi
 gpio 13 = [input] ke IR sensor, untuk input sensor input bottle = mendapatkan signal jika ada botol masuk
 gpio 19 = [input] ke push button untuk cetak struk (optional)
 gpio 26 = [output] ke relay untuk output ke arduino = memberikan signal untuk menggerakkan stepper motor jika ada botol masuk
@@ -33,6 +33,9 @@ toDo:
 - Pisahkan command untuk gerakan stepper motor dan cetak struk >> DONE
 - Pisahkan hasil pembacaan scanner, Data Ok lanjut proses, data tak Ok stop proses
 - Perlu tambahan gpio 6
+
+toDo List 2:
+- Scanner to raspy udah ok, tinggal arduino to thernal printer, apakah bisa ok?
 
 ISSUE:
 - Kalau sudah input botol, tapi nggak kebaca, auto stop atau no proses, biar botol diambil lagi.
@@ -148,11 +151,11 @@ def mainPage():
 	barcodeLabel.place(x=170, y=150)
 
 #BUTTON PRINT=============
-	printButton = Button(mainFrame,text="Cetak Struk", font=("Helvatica",10, "bold"), bg="green",fg = "white", width=10, height=3, command=resetCounter)
+	printButton = Button(mainFrame,text="Cetak Struk", font=("Helvatica",10, "bold"), bg="green",fg = "blue", width=10, height=3, command=resetCounter)
 	printButton.place(x=55, y=290)
 
 #BUTTON RESCAN============
-	printButton = Button(mainFrame,text="Scan Ulang", font=("Helvatica",10, "bold"), bg="green",fg = "white", width=10, height=3, command=resetCounter)
+	printButton = Button(mainFrame,text="Scan Ulang", font=("Helvatica",10, "bold"), bg="yellow",fg = "blue", width=10, height=3, command=barcodeScanner)
 	printButton.place(x=195, y=290)
 
 #MESSAGES LABEL======================
