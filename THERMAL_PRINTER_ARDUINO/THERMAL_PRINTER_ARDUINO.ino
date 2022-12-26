@@ -19,7 +19,7 @@ uint8_t PrinterOper::OnInit(USBPrinter *pPrinter)
   Serial.println(pPrinter->isBidirectional());
   return 0;
 }
-
+//Logic untuk usb shield arduino==============
 USB myusb;
 PrinterOper AsyncOper;
 USBPrinter uprinter(&myusb, &AsyncOper); //RX dan RX =================
@@ -38,15 +38,18 @@ void setup(){
 
 void loop(){
   myusb.Task();
-  //Make sure usb printer found and ready
+//Make sure usb printer found and ready==============
   if(uprinter.isReady()){
     printer.begin();
     Serial.println(F("Init ESC POS Printer"));
 
+//DATA YANG DIPRINT DIMASUKIN SINI================
     //printer.setSize('M'); // L for Large
     printer.println(F("Hello Printer"));
-    printer.feed(7);
+    printer.feed(5);
     autocutter();
+//================
+    
     //Do this one time to avoid wasting paper
     while(1) delay(1); //looping trap biar nggak terulang dan keluar terus sampai alat dimatikan
   }
