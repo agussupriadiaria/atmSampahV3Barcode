@@ -26,7 +26,7 @@ USBPrinter uprinter(&myusb, &AsyncOper); //RX dan RX =================
 ESC_POS_Printer printer (&uprinter);
 
 void setup(){
-  Serial.begin(115200);
+  Serial.begin(9600);
   while (!Serial && millis() < 3000) delay(1);
 
   if(myusb.Init()){
@@ -41,11 +41,11 @@ void loop(){
 //Make sure usb printer found and ready==============
   if(uprinter.isReady()){
     printer.begin();
-    Serial.println(F("Init ESC POS Printer"));
+    Serial.println("Init ESC POS Printer");
 
 //DATA YANG DIPRINT DIMASUKIN SINI================
     //printer.setSize('M'); // L for Large
-    printer.println(F("Hello Printer"));
+    printer.println("Hello Printer");
     printer.feed(5);
     autocutter();
 //================
