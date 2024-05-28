@@ -8,7 +8,7 @@ sudo chmod 666 /dev/serial0
 sudo chmod a+w /dev/serial0
 
 - All system is OK
-# - Series: cetakStruk on display.
+- Series: cetakStruk on display.
 - Hati2 over voltage pada relay =>> nggak kerja
 - With GPIO Active
 /////////////////////////////////////
