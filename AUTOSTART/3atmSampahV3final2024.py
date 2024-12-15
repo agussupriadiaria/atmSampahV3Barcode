@@ -1,5 +1,5 @@
 '''
-============== ATM SAMPAH 2024 ==============
+============== ATM SAMPAH 2024 ==============///
 Testing 2 Juli 2024
 
 Target:
@@ -17,6 +17,10 @@ import random
 from  escpos.printer import Serial
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from datetime import datetime
+
+# Inisialisasi nomor urut
+nomor = 1  # variabel untuk menyimpan nomor urut
 
 gp.setwarnings(False)
 gp.setmode(gp.BCM)
@@ -68,7 +72,7 @@ def mainPage():
     dateStamp.place(x=100, y=30)
 
     ariaLabel = Label(mainFrame, text="[PilahSampah - Malang]", font=("Courier",10, "bold"), bg="white")
-    ariaLabel.place(x=560, y=10)
+    ariaLabel.place(x=540, y=10)
 
     parameterFrame = Frame(mainFrame, bg="white",width=350, height=200, highlightbackground="blue", highlightthickness=5 )
     parameterFrame.place(x=10, y=75)
@@ -85,7 +89,7 @@ def mainPage():
 
     nameDataLabel = Label(transaksiFrame, bg="white", text="DATA", font=("Helvatica", 15, "bold"))
     nameDataLabel.place(x=135, y=10)
-    nameUserIdLabel = Label(transaksiFrame, bg="white", text="User ID   ", font=("Helvatica", 10, "bold"))
+    nameUserIdLabel = Label(transaksiFrame, bg="white", text="TID   ", font=("Helvatica", 10, "bold"))
     nameUserIdLabel.place(x=50, y=50)
     nameJumlahLabel = Label(transaksiFrame, bg="white", text="Jumlah    ", font=("Helvatica", 10, "bold"))
     nameJumlahLabel.place(x=50, y=75)
@@ -171,34 +175,27 @@ def thermalPrinterX():
     p.set(font="a", height=1, align="center", bold=True, double_height=False)
     p.text(userID) #User ID
     p.text("\n")
-    p.text(time.asctime())
+    #p.text(time.asctime())
+    # Format tanggal menjadi dd-mm-yyyy
+    current_date = datetime.now().strftime("%d-%m-%Y")
+    p.text(current_date)
     p.text("\n")
     #FOOTAGE===
     p.text("Terima kasih\n")
     p.text("\n\n\n")
 
 def saveData():
+    global nomor
+    date_text = datetime.now().strftime("%Y-%m-%d")
     fb = open('/home/blacksheep/saveData/saveData.txt', 'a')
-    fb.write("Barcode: ")
-    fb.write(lineRead)
-    fb.write(' / ')
-    fb.write("Time: ")
-    fb.write(time_text)
-    fb.write(' / ')
-    fb.write("Date: ")
-    fb.write(date_text)
-    fb.write(' / ')
-    fb.write("Bottle: ")
-    fb.write(str(bottle))
-    fb.write(' / ')
-    fb.write("SaldoPcs: ")
-    fb.write(str(nominalLabel.cget("text")))  # Perbaikan di sini
-    fb.write(' / ')
-    fb.write("TotalSaldo: Rp")
-    fb.write(str(saldo))
-    fb.write(' / ')
-    fb.write("UserID: ")
-    fb.write(str(userID))
+    fb.write(f"{nomor} / ")
+    fb.write(f"{lineRead} / ")
+    fb.write(f"{time_text} / ")
+    fb.write(f"{date_text} / ")
+    fb.write(f"{str(bottle)} / ")
+    fb.write(f"{str(nominalLabel.cget('text'))} / ")
+    fb.write(f"{str(saldo)} / ")
+    fb.write(f"{str(userID)} / ")
     fb.write('\n')
     fb.close()
     print("Barcode: ", lineRead)
@@ -272,8 +269,8 @@ def updateDate():
     global date_text
     tanggal = time.strftime ("%d")
     bulan = time.strftime ("%m")
-    tahun = time.strftime ("%y")
-    date_text = tanggal + "/" + bulan + "/" + tahun
+    tahun = time.strftime ("%Y")
+    date_text = tanggal + "-" + bulan + "-" + tahun
     dateStamp.config(text= date_text)
     dateStamp.after(86400000, updateDate)
 
@@ -320,9 +317,12 @@ def fullSensor():
     root.after(50,fullSensor)
     
 def sendToSheet():
+    global nomor
     try:
         while True:
-            sheet.append_row([lineRead, time_text, date_text, bottle, nominalLabel.cget("text"), saldo, userID])
+            date_text = datetime.now().strftime("%Y-%m-%d")
+            sheet.append_row([nomor, lineRead, time_text, date_text, bottle, nominalLabel.cget("text"), saldo, userID])
+            nomor += 1  # Tambah nomor setiap kali data ditambahkan
             time.sleep(1)  # Delay kecil agar tidak menulis terlalu cepat
             break
     except KeyboardInterrupt:
